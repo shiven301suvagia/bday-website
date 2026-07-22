@@ -2,7 +2,7 @@
 //  COUNTDOWN LOGIC - Like waiting for a special day
 // ============================================================
 // Set your birthday date here:
-const BIRTHDAY_DATE = new Date("2025-07-23T00:00:00+05:30");
+const BIRTHDAY_DATE = new Date("2026-07-23T00:00:00+05:30");
 let countdownTimer = null;
 
 function updateCountdown() {
