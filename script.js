@@ -1,9 +1,12 @@
 // ============================================================
-//  COUNTDOWN LOGIC - Like waiting for a special day
+//  COUNTDOWN LOGIC - LOCKS THE PAGE UNTIL COUNTDOWN ENDS
 // ============================================================
-// Set your birthday date here:
-const BIRTHDAY_DATE = new Date("2026-07-23T00:00:00+05:30");
+// Set your birthday date here (year, month-1, day, hour, minute, second)
+const BIRTHDAY_DATE = new Date(2025, 6, 23, 0, 0, 0); // July 23, 2025, 12:00 AM
 let countdownTimer = null;
+
+// Add the countdown-active class to body to prevent scrolling
+document.body.classList.add('countdown-active');
 
 function updateCountdown() {
   const now = new Date();
@@ -17,16 +20,33 @@ function updateCountdown() {
   const countdownSection = document.getElementById('countdown-section');
 
   if (diff <= 0) {
-    // It's time! Hide countdown and show the card
+    // 🎉 COUNTDOWN ENDED! Reveal the website
     if (countdownTimer) clearInterval(countdownTimer);
+    
     if (countdownSection) {
+      // Fade out countdown
       countdownSection.classList.add('finished');
+      
       setTimeout(() => {
+        // Remove countdown from DOM
         countdownSection.style.display = 'none';
-        document.getElementById('cover').style.display = 'flex';
-        // Small confetti burst when card appears
+        
+        // Remove the lock class
+        document.body.classList.remove('countdown-active');
+        document.body.classList.add('countdown-done');
+        
+        // Show the main content
+        const mainContent = document.getElementById('main-content');
+        if (mainContent) {
+          mainContent.style.display = 'block';
+        }
+        
+        // Celebration confetti!
         if (typeof confetti === 'function') {
-          confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
+          confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+          setTimeout(() => {
+            confetti({ particleCount: 80, spread: 60, origin: { y: 0.4 } });
+          }, 300);
         }
       }, 800);
     }
@@ -39,7 +59,7 @@ function updateCountdown() {
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
 
-  // Update the display with cute formatting
+  // Update the display
   if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
   if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
   if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
@@ -49,6 +69,14 @@ function updateCountdown() {
 // Start the countdown
 countdownTimer = setInterval(updateCountdown, 1000);
 updateCountdown();
+
+// ============================================================
+//  TEST MODE: Remove this block when you want the real countdown
+//  To test the reveal, uncomment the line below:
+// ============================================================
+// To test immediately, uncomment this:
+// setTimeout(() => { BIRTHDAY_DATE = new Date(); }, 100);
+// But for real use, keep the BIRTHDAY_DATE as your actual date
 
 // ============================================================
 //  OPEN THE CARD
@@ -64,7 +92,6 @@ document.getElementById('open-card').addEventListener('click', function() {
   setTimeout(() => {
     cover.style.display = 'none';
     inside.style.display = 'block';
-    inside.style.animation = 'fadeReveal 0.8s ease forwards';
     
     // Confetti celebration when opening
     if (typeof confetti === 'function') {
@@ -180,7 +207,7 @@ if (reasonsGrid) {
 }
 
 // ============================================================
-//  THE LETTER (Handwritten style content)
+//  THE LETTER
 // ============================================================
 const letterContent = document.getElementById('letter-content');
 
@@ -218,7 +245,7 @@ if (letterContent) {
 }
 
 // ============================================================
-//  CELEBRATE BUTTON - Finale Confetti
+//  CELEBRATE BUTTON
 // ============================================================
 const celebrateBtn = document.getElementById('celebrate-btn');
 if (celebrateBtn) {
@@ -245,7 +272,7 @@ if (celebrateBtn) {
 }
 
 // ============================================================
-//  SCROLL REVEAL - For a gentle card-opening feel
+//  SCROLL REVEAL
 // ============================================================
 const sections = document.querySelectorAll('.card-section');
 
@@ -266,7 +293,7 @@ sections.forEach((section, index) => {
 });
 
 // ============================================================
-//  ADD PAPER TEXTURE (extra cozy)
+//  PAPER TEXTURE
 // ============================================================
 document.querySelectorAll('.letter-paper, .card-cover, .envelope-bg, .note-paper').forEach(el => {
   el.style.backgroundImage = `
@@ -275,3 +302,4 @@ document.querySelectorAll('.letter-paper, .card-cover, .envelope-bg, .note-paper
 });
 
 console.log('💌 A handmade card, made with love for Samyy Didi ❤️');
+console.log('🎂 Countdown active until:', BIRTHDAY_DATE.toLocaleString());
