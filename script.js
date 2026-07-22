@@ -3,7 +3,7 @@
 ========================= */
 
 // Target Unlock Date: 23 July 2026, 12:00 AM (India)
-const UNLOCK_DATE = new Date("2026-07-23T00:00:00+05:30");
+const UNLOCK_DATE = new Date("2025-07-23T00:00:00+05:30");
 
 function pad(n) {
   return String(n).padStart(2, "0");
