@@ -2,7 +2,7 @@
 //  COUNTDOWN LOGIC - LOCKS THE PAGE UNTIL COUNTDOWN ENDS
 // ============================================================
 // Set your birthday date here (year, month-1, day, hour, minute, second)
-const BIRTHDAY_DATE = new Date(2025, 6, 23, 0, 0, 0); // July 23, 2025, 12:00 AM
+const BIRTHDAY_DATE = new Date(2026, 6, 23, 0, 0, 0); // July 23, 2025, 12:00 AM
 let countdownTimer = null;
 
 // Add the countdown-active class to body to prevent scrolling
