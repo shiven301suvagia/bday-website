@@ -1,6 +1,7 @@
-// Target Unlock Date: 23 July 2026, 12:00 AM (IST / India Standard Time)
+// ============================================================
+//  COUNTDOWN LOGIC
+// ============================================================
 const UNLOCK_DATE = new Date("2025-07-23T00:00:00+05:30");
-
 let timer = null;
 
 function updateCountdown() {
@@ -16,7 +17,7 @@ function updateCountdown() {
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / (1000 * 60)) % 10);
+  const seconds = Math.floor((diff / 1000) % 60);
 
   document.getElementById("days").textContent = String(days).padStart(2, "0");
   document.getElementById("hours").textContent = String(hours).padStart(2, "0");
@@ -29,20 +30,24 @@ function unlockSite() {
   document.body.classList.add("unlocked");
   
   if (typeof confetti === "function") {
-    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+    setTimeout(() => {
+      confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
+    }, 300);
   }
 }
 
-// Start Timer
+// Start timer
 timer = setInterval(updateCountdown, 1000);
 updateCountdown();
 
-/* --- Dynamic Content Population --- */
-
-// 1. Floating Petals
+// ============================================================
+//  FLOATING PETALS
+// ============================================================
 function createPetals() {
   const container = document.getElementById("petals");
   if (!container) return;
+  
   for (let i = 0; i < 25; i++) {
     const petal = document.createElement("div");
     petal.className = "petal";
@@ -51,12 +56,15 @@ function createPetals() {
     petal.style.height = Math.random() * 15 + 10 + "px";
     petal.style.animationDuration = Math.random() * 5 + 7 + "s";
     petal.style.animationDelay = Math.random() * 5 + "s";
+    petal.style.transform = `rotate(${Math.random() * 360}deg)`;
     container.appendChild(petal);
   }
 }
 createPetals();
 
-// 2. Storyteller Lines
+// ============================================================
+//  STORYTELLER LINES
+// ============================================================
 const storyText = [
   "Twenty years ago, a quiet light entered the world.",
   "Through every chapter, you've brought warmth, grace, and an unforgettable smile.",
@@ -74,7 +82,9 @@ if (storyContainer) {
   });
 }
 
-// 3. Memory Timeline
+// ============================================================
+//  MEMORY TIMELINE
+// ============================================================
 const timelineData = [
   { year: "2006", title: "The Beginning", desc: "A brand new story began." },
   { year: "2012", title: "Growing Up", desc: "Filling days with curiosity and laughter." },
@@ -98,7 +108,9 @@ if (timelineContainer) {
   });
 }
 
-// 4. 20 Love Cards
+// ============================================================
+//  20 LOVE CARDS
+// ============================================================
 const cardsData = [
   "Your beautiful laughter", "Always being supportive", "Your warm heart",
   "The best advice provider", "Your patience and grace", "Your cheerful energy",
@@ -117,7 +129,7 @@ if (cardsGrid) {
     card.innerHTML = `
       <div class="card-inner">
         <div class="card-front">
-          <span class="gold-text serif" style="font-size:1.3rem">Reason #${index + 1}</span>
+          <span class="number">#${index + 1}</span>
         </div>
         <div class="card-back">
           <span>${note}</span>
@@ -131,7 +143,9 @@ if (cardsGrid) {
   });
 }
 
-// 5. Letter Paper Text
+// ============================================================
+//  LETTER PAPER TEXT
+// ============================================================
 const letterPaper = document.getElementById("letter-paper");
 if (letterPaper) {
   letterPaper.innerHTML = `
@@ -146,7 +160,30 @@ if (letterPaper) {
   `;
 }
 
-// 6. Interactive Actions & Scroll Animations
+// ============================================================
+//  STARS FOR CELEBRATION SECTION
+// ============================================================
+function createStars() {
+  const container = document.getElementById("stars-celeb");
+  if (!container) return;
+  
+  for (let i = 0; i < 50; i++) {
+    const star = document.createElement("div");
+    star.className = "star";
+    star.style.left = Math.random() * 100 + "%";
+    star.style.top = Math.random() * 100 + "%";
+    star.style.animationDelay = Math.random() * 3 + "s";
+    star.style.width = Math.random() * 3 + 1 + "px";
+    star.style.height = star.style.width;
+    container.appendChild(star);
+  }
+}
+createStars();
+
+// ============================================================
+//  INTERACTIVE ACTIONS
+// ============================================================
+// Gift Box
 const giftBox = document.getElementById("gift-box");
 const giftMsg = document.getElementById("gift-message");
 const tapHint = document.getElementById("tap-hint");
@@ -163,6 +200,7 @@ if (giftBox) {
   });
 }
 
+// Begin Button
 const beginBtn = document.getElementById("begin");
 if (beginBtn) {
   beginBtn.addEventListener("click", () => {
@@ -170,16 +208,22 @@ if (beginBtn) {
   });
 }
 
+// Relive Button
 const againBtn = document.getElementById("again");
 if (againBtn) {
   againBtn.addEventListener("click", () => {
     if (typeof confetti === "function") {
       confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+      setTimeout(() => {
+        confetti({ particleCount: 80, spread: 70, origin: { y: 0.4 } });
+      }, 200);
     }
   });
 }
 
-// Scroll Reveal Observer
+// ============================================================
+//  SCROLL REVEAL OBSERVER
+// ============================================================
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
@@ -199,3 +243,12 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.15 });
 
 document.querySelectorAll(".reveal, .scene").forEach(el => observer.observe(el));
+
+// ============================================================
+//  EXTRA: Fix for any potential display issues
+// ============================================================
+// Ensure the site is locked if countdown hasn't expired
+if (new Date() < UNLOCK_DATE) {
+  document.body.classList.add("locked");
+  document.body.classList.remove("unlocked");
+}
