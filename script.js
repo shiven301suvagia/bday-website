@@ -1,436 +1,201 @@
-:root {
-  --plum-deep: #0e0814;
-  --plum-card: rgba(26, 16, 38, 0.75);
-  --border-glass: rgba(244, 208, 111, 0.2);
-  --gold-glow: #f4d06f;
-  --gold-gradient: linear-gradient(135deg, #ffe082 0%, #ca9e50 100%);
-  --cream: #fcefe6;
-  --cream-70: rgba(252, 239, 230, 0.75);
-  --blush: #e8a5b8;
-  --rose: #f48fb1;
-  --font-serif: 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Inter', sans-serif;
-  --font-script: 'Dancing Script', cursive;
-}
+// Target Unlock Date: 23 July 2026, 12:00 AM (IST / India Standard Time)
+const UNLOCK_DATE = new Date("2026-07-23T00:00:00+05:30");
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+let timer = null;
 
-html, body {
-  background-color: var(--plum-deep);
-  background-image: radial-gradient(circle at 50% 20%, #1a0e28 0%, #0e0814 80%);
-  background-attachment: fixed;
-  color: var(--cream);
-  font-family: var(--font-sans);
-  scroll-behavior: smooth;
-  min-height: 100vh;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-}
+function updateCountdown() {
+  const now = new Date();
+  const diff = UNLOCK_DATE - now;
 
-/* Glassmorphism Styling */
-.glass-card {
-  background: var(--plum-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--border-glass);
-  border-radius: 20px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  padding: 2.5rem;
-}
-
-/* Typography & Colors */
-.serif { font-family: var(--font-serif); }
-.script { font-family: var(--font-script); }
-.big-script { font-size: 2.2rem; }
-.gold-gradient {
-  background: var(--gold-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.gold-text { color: var(--gold-glow); }
-.blush { color: var(--blush); }
-.rose { color: var(--rose); }
-.cream-70 { color: var(--cream-70); }
-
-.chapter-tag {
-  font-size: 0.75rem;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--gold-glow);
-  margin-bottom: 0.75rem;
-  display: block;
-}
-
-/* Scroll Reveals */
-.reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
-}
-.reveal.active {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* State Handlers for Locked / Unlocked */
-body.locked .stage { display: none !important; }
-body.locked #countdown-screen { display: flex !important; }
-body.unlocked #countdown-screen { display: none !important; }
-body.unlocked .stage { display: block !important; }
-
-/* Countdown Lock Screen */
-.countdown-screen {
-  position: fixed;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1.5rem;
-}
-
-.countdown-card {
-  max-width: 480px;
-  width: 100%;
-  text-align: center;
-}
-
-.countdown-title {
-  font-family: var(--font-serif);
-  font-size: 2.8rem;
-  margin: 0.5rem 0 1.5rem 0;
-  font-weight: 400;
-}
-
-.countdown-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
-}
-
-.time-box {
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid var(--border-glass);
-  border-radius: 12px;
-  padding: 0.75rem 0.25rem;
-}
-
-.time-box span {
-  display: block;
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--gold-glow);
-}
-
-.time-box small {
-  font-size: 0.7rem;
-  color: var(--cream-70);
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-}
-
-.gift-from-bacha {
-  font-family: var(--font-script);
-  font-size: 1.6rem;
-  color: var(--blush);
-  margin-bottom: 0.5rem;
-}
-
-.countdown-note {
-  font-size: 0.85rem;
-  color: var(--cream-70);
-}
-
-/* Main Stage */
-.stage {
-  max-width: 850px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-  position: relative;
-}
-
-.scene {
-  min-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 4rem 0;
-  position: relative;
-}
-
-.hero-name {
-  font-family: var(--font-serif);
-  font-size: 4.5rem;
-  margin: 0.5rem 0;
-  background: linear-gradient(180deg, #ffffff 0%, #e0c3fc 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-/* Petals Floating Effect */
-.petals {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.petal {
-  position: absolute;
-  background: radial-gradient(circle, rgba(244,143,177,0.6) 0%, rgba(232,165,184,0.2) 70%);
-  border-radius: 150% 0 150% 0;
-  animation: floatPetal 10s infinite linear;
-}
-
-@keyframes floatPetal {
-  0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateY(105vh) rotate(360deg); opacity: 0; }
-}
-
-/* Gift Box Animation */
-.gift-box-wrap {
-  margin: 2rem 0;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.gift-box {
-  background: none;
-  border: none;
-  cursor: pointer;
-  position: relative;
-  width: 120px;
-  height: 120px;
-  transition: transform 0.3s ease;
-}
-
-.gift-box:hover {
-  transform: scale(1.08);
-}
-
-.box-body {
-  width: 100px;
-  height: 80px;
-  background: linear-gradient(135deg, #8e24aa, #4a148c);
-  border-radius: 10px;
-  position: absolute;
-  bottom: 0;
-  left: 10px;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.4);
-}
-
-.box-ribbon {
-  width: 20px;
-  height: 80px;
-  background: var(--gold-glow);
-  position: absolute;
-  bottom: 0;
-  left: 50px;
-}
-
-.box-lid {
-  width: 110px;
-  height: 25px;
-  background: linear-gradient(135deg, #ab47bc, #6a1b9a);
-  border-radius: 6px;
-  position: absolute;
-  top: 20px;
-  left: 5px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-
-.tap-hint {
-  font-size: 0.8rem;
-  letter-spacing: 0.15em;
-  color: var(--gold-glow);
-  margin-top: 1rem;
-}
-
-/* Story Lines */
-.story-inner {
-  width: 100%;
-  max-width: 650px;
-  text-align: left;
-}
-
-.story-line {
-  font-family: var(--font-serif);
-  font-size: 1.4rem;
-  line-height: 1.8;
-  margin-bottom: 1.2rem;
-  color: var(--cream);
-  opacity: 0;
-  transform: translateY(15px);
-  transition: all 0.6s ease;
-}
-
-.story-line.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Timeline */
-.timeline-wrap {
-  position: relative;
-  margin-top: 3rem;
-  width: 100%;
-}
-
-.timeline-line {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: var(--border-glass);
-  transform: translateX(-50%);
-}
-
-.timeline-item {
-  margin: 2rem 0;
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-  width: 50%;
-}
-
-.timeline-item:nth-child(even) {
-  margin-left: 50%;
-  justify-content: flex-start;
-}
-
-.timeline-card {
-  width: 85%;
-  padding: 1.5rem;
-  text-align: left;
-}
-
-.timeline-year {
-  font-family: var(--font-serif);
-  font-size: 1.5rem;
-  color: var(--gold-glow);
-  margin-bottom: 0.3rem;
-}
-
-/* Cards Grid (20 Notes) */
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 1.25rem;
-  width: 100%;
-  margin-top: 2.5rem;
-}
-
-.note-card {
-  perspective: 1000px;
-  height: 160px;
-  cursor: pointer;
-}
-
-.card-inner {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-}
-
-.note-card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  position: absolute;
-  inset: 0;
-  backface-visibility: hidden;
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1.2rem;
-}
-
-.card-front {
-  background: var(--plum-card);
-  border: 1px solid var(--border-glass);
-}
-
-.card-back {
-  background: rgba(244, 208, 111, 0.12);
-  border: 1px solid var(--gold-glow);
-  transform: rotateY(180deg);
-  font-family: var(--font-serif);
-  font-size: 1.1rem;
-  line-height: 1.4;
-  color: var(--cream);
-}
-
-/* Letter Paper */
-.letter-paper {
-  position: relative;
-  max-width: 650px;
-  width: 100%;
-  margin-top: 2rem;
-  text-align: left;
-  line-height: 1.9;
-  font-family: var(--font-serif);
-  font-size: 1.3rem;
-}
-
-/* Buttons */
-.btn-primary, .btn-outline {
-  padding: 0.85rem 2rem;
-  border-radius: 30px;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: 1.5rem;
-}
-
-.btn-primary {
-  background: var(--gold-gradient);
-  border: none;
-  color: #000;
-  font-weight: 600;
-  box-shadow: 0 4px 15px rgba(244, 208, 111, 0.3);
-}
-
-.btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(244, 208, 111, 0.5);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 1px solid var(--gold-glow);
-  color: var(--gold-glow);
-}
-
-.btn-outline:hover {
-  background: rgba(244, 208, 111, 0.15);
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 600px) {
-  .hero-name { font-size: 3.2rem; }
-  .timeline-line { left: 20px; }
-  .timeline-item, .timeline-item:nth-child(even) {
-    width: 100%;
-    margin-left: 0;
-    padding-left: 45px;
+  if (diff <= 0) {
+    unlockSite();
+    if (timer) clearInterval(timer);
+    return;
   }
-  .timeline-card { width: 100%; }
+
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutes = Math.floor((diff / (1000 * 60)) % 60);
+  const seconds = Math.floor((diff / (1000 * 60)) % 10);
+
+  document.getElementById("days").textContent = String(days).padStart(2, "0");
+  document.getElementById("hours").textContent = String(hours).padStart(2, "0");
+  document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
+  document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
 }
+
+function unlockSite() {
+  document.body.classList.remove("locked");
+  document.body.classList.add("unlocked");
+  
+  if (typeof confetti === "function") {
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+  }
+}
+
+// Start Timer
+timer = setInterval(updateCountdown, 1000);
+updateCountdown();
+
+/* --- Dynamic Content Population --- */
+
+// 1. Floating Petals
+function createPetals() {
+  const container = document.getElementById("petals");
+  if (!container) return;
+  for (let i = 0; i < 25; i++) {
+    const petal = document.createElement("div");
+    petal.className = "petal";
+    petal.style.left = Math.random() * 100 + "vw";
+    petal.style.width = Math.random() * 12 + 8 + "px";
+    petal.style.height = Math.random() * 15 + 10 + "px";
+    petal.style.animationDuration = Math.random() * 5 + 7 + "s";
+    petal.style.animationDelay = Math.random() * 5 + "s";
+    container.appendChild(petal);
+  }
+}
+createPetals();
+
+// 2. Storyteller Lines
+const storyText = [
+  "Twenty years ago, a quiet light entered the world.",
+  "Through every chapter, you've brought warmth, grace, and an unforgettable smile.",
+  "You hold a special place in the hearts of everyone around you.",
+  "And today, we celebrate all that you are—and all the wonderful moments still to come."
+];
+
+const storyContainer = document.getElementById("story-lines");
+if (storyContainer) {
+  storyText.forEach((text) => {
+    const p = document.createElement("p");
+    p.className = "story-line";
+    p.textContent = text;
+    storyContainer.appendChild(p);
+  });
+}
+
+// 3. Memory Timeline
+const timelineData = [
+  { year: "2006", title: "The Beginning", desc: "A brand new story began." },
+  { year: "2012", title: "Growing Up", desc: "Filling days with curiosity and laughter." },
+  { year: "2018", title: "Milestones", desc: "Stepping gracefully into new adventures." },
+  { year: "2026", title: "To Twenty", desc: "Entering a golden new decade full of promise." }
+];
+
+const timelineContainer = document.getElementById("timeline-items");
+if (timelineContainer) {
+  timelineData.forEach((item) => {
+    const div = document.createElement("div");
+    div.className = "timeline-item";
+    div.innerHTML = `
+      <div class="timeline-card glass-card">
+        <div class="timeline-year">${item.year}</div>
+        <h3 class="serif cream" style="font-size:1.2rem">${item.title}</h3>
+        <p class="cream-70" style="font-size:0.9rem">${item.desc}</p>
+      </div>
+    `;
+    timelineContainer.appendChild(div);
+  });
+}
+
+// 4. 20 Love Cards
+const cardsData = [
+  "Your beautiful laughter", "Always being supportive", "Your warm heart",
+  "The best advice provider", "Your patience and grace", "Your cheerful energy",
+  "Making every day brighter", "Your wonderful sense of humor", "Being an amazing sister",
+  "Your kindness to everyone", "Your endless strength", "Unforgettable memories",
+  "Your inspiring dreams", "Always keeping promises", "Your generous spirit",
+  "Making us feel loved", "Your brilliant mind", "Your artistic touch",
+  "Bringing peace everywhere", "Simply being YOU! ♥"
+];
+
+const cardsGrid = document.getElementById("cards-grid");
+if (cardsGrid) {
+  cardsData.forEach((note, index) => {
+    const card = document.createElement("div");
+    card.className = "note-card";
+    card.innerHTML = `
+      <div class="card-inner">
+        <div class="card-front">
+          <span class="gold-text serif" style="font-size:1.3rem">Reason #${index + 1}</span>
+        </div>
+        <div class="card-back">
+          <span>${note}</span>
+        </div>
+      </div>
+    `;
+    card.addEventListener("click", () => {
+      card.classList.toggle("flipped");
+    });
+    cardsGrid.appendChild(card);
+  });
+}
+
+// 5. Letter Paper Text
+const letterPaper = document.getElementById("letter-paper");
+if (letterPaper) {
+  letterPaper.innerHTML = `
+    <p class="serif cream" style="margin-bottom:1rem">Dear Samyy Didi,</p>
+    <p class="cream-70" style="margin-bottom:1rem">
+      Happy 20th Birthday! Turning twenty is such a wonderful milestone. Watching you grow, achieve, and shine brighter each year has been a true joy.
+    </p>
+    <p class="cream-70" style="margin-bottom:1rem">
+      Thank you for all the laughter, the little moments, and for always being such a wonderful person. I hope this new decade brings you endless success, health, and happiness.
+    </p>
+    <p class="script gold-text" style="font-size:1.8rem; text-align:right">— Always, your bacha 😊</p>
+  `;
+}
+
+// 6. Interactive Actions & Scroll Animations
+const giftBox = document.getElementById("gift-box");
+const giftMsg = document.getElementById("gift-message");
+const tapHint = document.getElementById("tap-hint");
+
+if (giftBox) {
+  giftBox.addEventListener("click", () => {
+    giftBox.style.display = "none";
+    if (tapHint) tapHint.style.display = "none";
+    if (giftMsg) giftMsg.style.display = "block";
+    
+    if (typeof confetti === "function") {
+      confetti({ particleCount: 60, spread: 70, origin: { y: 0.7 } });
+    }
+  });
+}
+
+const beginBtn = document.getElementById("begin");
+if (beginBtn) {
+  beginBtn.addEventListener("click", () => {
+    document.getElementById("gift").scrollIntoView({ behavior: "smooth" });
+  });
+}
+
+const againBtn = document.getElementById("again");
+if (againBtn) {
+  againBtn.addEventListener("click", () => {
+    if (typeof confetti === "function") {
+      confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+    }
+  });
+}
+
+// Scroll Reveal Observer
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
+      
+      // Animate story lines if story section enters
+      if (entry.target.id === "story") {
+        const lines = entry.target.querySelectorAll(".story-line");
+        lines.forEach((line, idx) => {
+          setTimeout(() => {
+            line.classList.add("show");
+          }, idx * 400);
+        });
+      }
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll(".reveal, .scene").forEach(el => observer.observe(el));
