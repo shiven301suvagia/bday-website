@@ -245,31 +245,216 @@ if (letterContent) {
 }
 
 // ============================================================
-//  CELEBRATE BUTTON
+//  CELEBRATE BUTTON - BIG SURPRISE!
 // ============================================================
 const celebrateBtn = document.getElementById('celebrate-btn');
+let surpriseActive = false;
+
 if (celebrateBtn) {
   celebrateBtn.addEventListener('click', function() {
+    if (surpriseActive) return; // Prevent multiple triggers
+    surpriseActive = true;
+    
+    // Change button text
+    this.textContent = '🎊 Happy Birthday! 🎊';
+    this.style.transform = 'scale(1.1)';
+    this.style.background = 'linear-gradient(145deg, #ff6b6b, #c0392b)';
+    this.style.color = 'white';
+    this.style.boxShadow = '0 8px 40px rgba(192, 57, 43, 0.5)';
+    
+    // ============================================================
+    //  SURPRISE 1: GIANT CONFETTI EXPLOSION
+    // ============================================================
     if (typeof confetti === 'function') {
-      // Big celebration!
-      confetti({ particleCount: 150, spread: 100, origin: { y: 0.4 } });
-      setTimeout(() => {
-        confetti({ particleCount: 100, spread: 80, origin: { y: 0.5 } });
-      }, 300);
-      setTimeout(() => {
-        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
-      }, 600);
+      // Big initial burst
+      confetti({ particleCount: 200, spread: 140, origin: { y: 0.3 } });
       
-      // Add some sparkle effect
-      this.textContent = '🎊 Happy Birthday! 🎊';
-      this.style.transform = 'scale(1.05)';
       setTimeout(() => {
-        this.textContent = '🎉 Let\'s Celebrate! 🎉';
-        this.style.transform = 'scale(1)';
-      }, 2000);
+        confetti({ particleCount: 150, spread: 120, origin: { y: 0.5 } });
+      }, 200);
+      
+      setTimeout(() => {
+        confetti({ particleCount: 100, spread: 100, origin: { y: 0.7 } });
+      }, 400);
+      
+      setTimeout(() => {
+        confetti({ particleCount: 80, spread: 80, origin: { y: 0.4 } });
+      }, 600);
     }
+    
+    // ============================================================
+    //  SURPRISE 2: FLOATING HEARTS STORM
+    // ============================================================
+    const heartEmojis = ['❤️', '♥', '💕', '💗', '💖', '💝', '✨', '🌟', '🎂', '🎉', '🎊'];
+    const heartContainer = document.createElement('div');
+    heartContainer.style.cssText = `
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      overflow: hidden;
+    `;
+    document.body.appendChild(heartContainer);
+    
+    // Create 50 floating hearts
+    for (let i = 0; i < 50; i++) {
+      const heart = document.createElement('div');
+      heart.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      heart.style.cssText = `
+        position: absolute;
+        font-size: ${Math.random() * 3 + 1.5}rem;
+        left: ${Math.random() * 100}%;
+        top: ${Math.random() * 100}%;
+        opacity: 0;
+        transform: scale(0);
+        animation: floatUpSurprise ${Math.random() * 3 + 2}s ease forwards;
+        animation-delay: ${Math.random() * 2}s;
+        filter: drop-shadow(0 4px 15px rgba(255, 100, 100, 0.3));
+      `;
+      heartContainer.appendChild(heart);
+    }
+    
+    // Add keyframe animation dynamically
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      @keyframes floatUpSurprise {
+        0% {
+          opacity: 0;
+          transform: scale(0) translateY(0) rotate(0deg);
+        }
+        20% {
+          opacity: 1;
+          transform: scale(1.2) translateY(-20px) rotate(10deg);
+        }
+        100% {
+          opacity: 0;
+          transform: scale(0.5) translateY(-200px) rotate(720deg);
+        }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+    
+    // Remove hearts after animation
+    setTimeout(() => {
+      heartContainer.remove();
+      styleSheet.remove();
+    }, 6000);
+    
+    // ============================================================
+    //  SURPRISE 3: MAGICAL GLOWING MESSAGE
+    // ============================================================
+    const surpriseMessage = document.createElement('div');
+    surpriseMessage.style.cssText = `
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      z-index: 10000;
+      text-align: center;
+      font-family: 'Patrick Hand', 'Dancing Script', cursive;
+      padding: 40px 50px;
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(20px);
+      border-radius: 30px;
+      border: 3px solid rgba(192, 57, 43, 0.2);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
+      max-width: 90%;
+      transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
+      opacity: 0;
+      pointer-events: none;
+    `;
+    
+    surpriseMessage.innerHTML = `
+      <div style="font-size: 4rem; margin-bottom: 0.5rem;">🎂</div>
+      <p style="font-size: 2.8rem; color: #c0392b; margin-bottom: 0.3rem; font-weight: 700;">
+        HAPPY 20TH BIRTHDAY!
+      </p>
+      <p style="font-size: 2rem; color: #2c1810; font-family: 'Dancing Script', cursive;">
+        Samyy Didi ❤️
+      </p>
+      <div style="margin: 0.8rem 0; font-size: 1.5rem; color: #7a5a4a; opacity: 0.6;">✧ ✧ ✧</div>
+      <p style="font-size: 1.2rem; color: #3d2a1e; font-family: 'Quicksand', sans-serif; font-weight: 300; line-height: 1.8;">
+        You deserve all the love, happiness, and magic in the world!<br />
+        <span style="color: #c0392b; font-weight: 600;">You are so loved!</span>
+      </p>
+      <button onclick="this.parentElement.remove()" style="
+        margin-top: 1.5rem;
+        padding: 10px 30px;
+        background: #c0392b;
+        color: white;
+        border: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-family: 'Quicksand', sans-serif;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(192, 57, 43, 0.2);
+      ">💖 Close</button>
+    `;
+    
+    document.body.appendChild(surpriseMessage);
+    
+    // Animate in
+    setTimeout(() => {
+      surpriseMessage.style.transform = 'translate(-50%, -50%) scale(1)';
+      surpriseMessage.style.opacity = '1';
+      surpriseMessage.style.pointerEvents = 'auto';
+    }, 300);
+    
+    // ============================================================
+    //  SURPRISE 4: RAINBOW COLOR EFFECT ON THE BUTTON
+    // ============================================================
+    let hue = 0;
+    const colorInterval = setInterval(() => {
+      hue = (hue + 1) % 360;
+      this.style.background = `linear-gradient(145deg, hsl(${hue}, 80%, 60%), hsl(${hue + 30}, 80%, 50%))`;
+    }, 50);
+    
+    // Stop color change after 8 seconds
+    setTimeout(() => {
+      clearInterval(colorInterval);
+      this.style.background = 'linear-gradient(145deg, #f4d06f, #e8b84c)';
+      this.style.color = '#2c1810';
+      this.style.transform = 'scale(1)';
+      this.textContent = '🎉 Let\'s Celebrate! 🎉';
+      this.style.boxShadow = '0 4px 15px rgba(244, 208, 111, 0.3)';
+      surpriseActive = false;
+    }, 8000);
   });
 }
+
+// ============================================================
+//  EXTRA: Add a special effect when the user hovers over the 
+//  "Happy Birthday" text in the message
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  // This will create a sparkling trail effect on the surprise message
+  const observer = new MutationObserver(() => {
+    const msg = document.querySelector('.surprise-message');
+    if (msg) {
+      // Add sparkle effect to the birthday text
+      const title = msg.querySelector('h2');
+      if (title) {
+        title.style.animation = 'sparkleText 1.5s ease-in-out infinite';
+      }
+    }
+  });
+  
+  // Watch for the surprise message being added
+  observer.observe(document.body, { childList: true, subtree: false });
+});
+
+// Add sparkle animation
+const sparkleStyle = document.createElement('style');
+sparkleStyle.textContent = `
+  @keyframes sparkleText {
+    0%, 100% { text-shadow: 0 0 10px rgba(255, 200, 100, 0.3); }
+    50% { text-shadow: 0 0 30px rgba(255, 200, 100, 0.6), 0 0 60px rgba(255, 200, 100, 0.3); }
+  }
+`;
+document.head.appendChild(sparkleStyle);
+
+console.log('🎉 Surprise ready! Click "Let\'s Celebrate!" for magic! ✨');
 
 // ============================================================
 //  SCROLL REVEAL
