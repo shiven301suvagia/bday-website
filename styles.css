@@ -1,5 +1,27 @@
 /* ============================================================
-   COUNTDOWN NOTE - Like a cute little sticky note
+   A HANDMADE CARD - Warm, Personal, Cozy
+   ============================================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  background: #fdf6f0;
+  background-image: 
+    radial-gradient(ellipse at 20% 30%, #fce4ec 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 70%, #f3e5f5 0%, transparent 50%),
+    linear-gradient(180deg, #fdf6f0 0%, #fce4ec 100%);
+  font-family: 'Quicksand', sans-serif;
+  color: #2c1810;
+  padding: 20px;
+  overflow-x: hidden;
+}
+
+/* ============================================================
+   COUNTDOWN NOTE
    ============================================================ */
 .countdown-section {
   min-height: 100vh;
@@ -7,7 +29,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
-  z-index: 1;
+  z-index: 10;
   padding: 20px;
 }
 
@@ -92,7 +114,6 @@
   opacity: 0.6;
 }
 
-/* When countdown finishes - hide it smoothly */
 .countdown-section.finished {
   opacity: 0;
   transform: scale(0.95);
@@ -105,7 +126,58 @@
 }
 
 /* ============================================================
-   COVER PAGE - (same as before, but starts hidden)
+   FLOATING HEARTS
+   ============================================================ */
+.hearts-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heart-float {
+  position: absolute;
+  opacity: 0.15;
+  animation: floatHeart linear infinite;
+  font-size: 2rem;
+}
+
+@keyframes floatHeart {
+  0% { transform: translateY(100vh) rotate(0deg) scale(0.5); opacity: 0; }
+  10% { opacity: 0.15; }
+  90% { opacity: 0.15; }
+  100% { transform: translateY(-10vh) rotate(360deg) scale(1); opacity: 0; }
+}
+
+/* ============================================================
+   HANDWRITTEN TYPOGRAPHY
+   ============================================================ */
+.handwritten {
+  font-family: 'Patrick Hand', 'Dancing Script', cursive;
+}
+
+.handwritten.tiny { font-size: 0.9rem; color: #7a5a4a; }
+.handwritten.small { font-size: 1.2rem; }
+.handwritten.medium { font-size: 1.6rem; }
+.handwritten.large { font-size: 2.4rem; }
+
+.body-text {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.15rem;
+  line-height: 1.9;
+  color: #3d2a1e;
+  font-weight: 300;
+}
+
+.highlight {
+  color: #c0392b;
+  font-weight: 600;
+  font-family: 'Playfair Display', serif;
+}
+
+/* ============================================================
+   COVER PAGE
    ============================================================ */
 .cover-page {
   min-height: 100vh;
@@ -122,5 +194,519 @@
   100% { opacity: 1; transform: translateY(0); }
 }
 
-/* Rest of your existing styles... */
-/* (Keep all the other styles from before) */
+.envelope-bg {
+  background: #f5ebe0;
+  padding: 30px;
+  border-radius: 30px;
+  box-shadow: 
+    0 20px 60px rgba(44, 24, 16, 0.15),
+    inset 0 2px 0 rgba(255,255,255,0.6);
+  position: relative;
+  max-width: 560px;
+  width: 100%;
+}
+
+.envelope-bg::before {
+  content: '';
+  position: absolute;
+  inset: 10px;
+  border: 2px dashed rgba(192, 57, 43, 0.15);
+  border-radius: 22px;
+  pointer-events: none;
+}
+
+.card-cover {
+  background: linear-gradient(145deg, #ffffff 0%, #fef9f5 100%);
+  border-radius: 20px;
+  padding: 50px 35px 40px;
+  text-align: center;
+  position: relative;
+  border: 1px solid rgba(192, 57, 43, 0.08);
+  box-shadow: inset 0 2px 10px rgba(255,255,255,0.8);
+}
+
+.stamp {
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  font-size: 2.5rem;
+  opacity: 0.6;
+  transform: rotate(12deg);
+}
+
+.corner-decoration {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border-color: #e8c9b0;
+  border-style: solid;
+  border-width: 0;
+  opacity: 0.4;
+}
+
+.corner-decoration.top-left {
+  top: 15px;
+  left: 15px;
+  border-top-width: 2px;
+  border-left-width: 2px;
+}
+
+.corner-decoration.top-right {
+  top: 15px;
+  right: 15px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+}
+
+.corner-decoration.bottom-left {
+  bottom: 15px;
+  left: 15px;
+  border-bottom-width: 2px;
+  border-left-width: 2px;
+}
+
+.corner-decoration.bottom-right {
+  bottom: 15px;
+  right: 15px;
+  border-bottom-width: 2px;
+  border-right-width: 2px;
+}
+
+.name-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.8rem;
+  font-weight: 700;
+  color: #2c1810;
+  margin: 0.3rem 0;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0 rgba(192, 57, 43, 0.05);
+}
+
+.doodle-line {
+  font-size: 1.2rem;
+  color: #c0392b;
+  opacity: 0.5;
+  margin: 0.8rem 0;
+  letter-spacing: 6px;
+}
+
+.open-btn {
+  margin-top: 25px;
+  padding: 14px 40px;
+  background: #c0392b;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(192, 57, 43, 0.25);
+}
+
+.open-btn:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(192, 57, 43, 0.35);
+  background: #a93226;
+}
+
+.open-btn:active {
+  transform: scale(0.97);
+}
+
+/* ============================================================
+   CARD INSIDE
+   ============================================================ */
+.card-inside {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 30px 20px 50px;
+  position: relative;
+  z-index: 1;
+  background: #fdf6f0;
+  border-radius: 30px;
+  box-shadow: 0 10px 40px rgba(44, 24, 16, 0.08);
+  animation: fadeReveal 0.8s ease forwards;
+}
+
+@keyframes fadeReveal {
+  0% { opacity: 0; transform: scale(0.95); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.washi-tape {
+  position: absolute;
+  width: 60px;
+  height: 20px;
+  background: rgba(244, 208, 111, 0.25);
+  border: 1px solid rgba(244, 208, 111, 0.2);
+  border-radius: 2px;
+  z-index: 10;
+  transform: rotate(-6deg);
+  opacity: 0.6;
+}
+
+.washi-tape.top-left { top: -5px; left: 30px; }
+.washi-tape.top-right { top: -5px; right: 30px; transform: rotate(6deg); }
+.washi-tape.bottom-left { bottom: -5px; left: 30px; transform: rotate(4deg); }
+.washi-tape.bottom-right { bottom: -5px; right: 30px; transform: rotate(-4deg); }
+
+/* ============================================================
+   CARD SECTIONS
+   ============================================================ */
+.card-section {
+  padding: 30px 0;
+  border-bottom: 2px dashed rgba(192, 57, 43, 0.08);
+}
+
+.card-section:last-child {
+  border-bottom: none;
+}
+
+.section-inner {
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.hand-drawn-heart {
+  font-size: 3rem;
+  color: #c0392b;
+  opacity: 0.3;
+  margin-bottom: 0.5rem;
+}
+
+.divider {
+  font-size: 1rem;
+  color: #c0392b;
+  opacity: 0.25;
+  letter-spacing: 8px;
+  margin: 1.5rem 0;
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: #2c1810;
+  margin: 0.5rem 0 1.5rem;
+}
+
+/* ============================================================
+   GIFT SECTION
+   ============================================================ */
+.gift-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1.5rem 0;
+}
+
+.gift-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.gift-btn:hover {
+  transform: scale(1.05);
+}
+
+.present-box {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.box-main {
+  width: 100px;
+  height: 80px;
+  background: linear-gradient(145deg, #e8a5b8, #c0392b);
+  border-radius: 8px;
+  position: absolute;
+  bottom: 0;
+  left: 10px;
+  box-shadow: 0 8px 20px rgba(192, 57, 43, 0.2);
+}
+
+.ribbon-h {
+  width: 20px;
+  height: 80px;
+  background: #f4d06f;
+  position: absolute;
+  bottom: 0;
+  left: 50px;
+  border-radius: 2px;
+}
+
+.ribbon-v {
+  width: 100px;
+  height: 20px;
+  background: #f4d06f;
+  position: absolute;
+  bottom: 30px;
+  left: 10px;
+  border-radius: 2px;
+}
+
+.bow {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.8rem;
+  filter: drop-shadow(0 2px 8px rgba(244, 208, 111, 0.3));
+}
+
+.gift-label {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1rem;
+  color: #7a5a4a;
+  margin-top: 0.8rem;
+  opacity: 0.7;
+  animation: pulseLabel 2s ease-in-out infinite;
+}
+
+@keyframes pulseLabel {
+  0%, 100% { opacity: 0.5; }
+  50% { opacity: 1; }
+}
+
+.gift-reveal {
+  margin-top: 1.5rem;
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  border: 2px dashed rgba(192, 57, 43, 0.15);
+  text-align: center;
+  animation: fadeReveal 0.6s ease;
+}
+
+/* ============================================================
+   MEMORY TIMELINE
+   ============================================================ */
+.memory-timeline {
+  margin-top: 1.5rem;
+}
+
+.memory-item {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(44, 24, 16, 0.04);
+}
+
+.memory-item:last-child {
+  border-bottom: none;
+}
+
+.memory-year {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #c0392b;
+  min-width: 60px;
+  opacity: 0.7;
+}
+
+.memory-text {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.05rem;
+  color: #3d2a1e;
+  font-weight: 300;
+}
+
+/* ============================================================
+   REASONS GRID
+   ============================================================ */
+.reasons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.8rem;
+  margin: 1.5rem 0;
+}
+
+.reason-card {
+  perspective: 800px;
+  height: 90px;
+  cursor: pointer;
+}
+
+.reason-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s ease;
+  transform-style: preserve-3d;
+}
+
+.reason-card.flipped .reason-inner {
+  transform: rotateY(180deg);
+}
+
+.reason-front, .reason-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.8rem;
+  text-align: center;
+}
+
+.reason-front {
+  background: rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(192, 57, 43, 0.1);
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.3rem;
+  color: #c0392b;
+}
+
+.reason-front .num {
+  font-size: 0.7rem;
+  opacity: 0.3;
+  display: block;
+  margin-top: 0.2rem;
+}
+
+.reason-back {
+  background: rgba(192, 57, 43, 0.06);
+  border: 2px solid rgba(192, 57, 43, 0.15);
+  transform: rotateY(180deg);
+  font-family: 'Quicksand', sans-serif;
+  font-size: 0.95rem;
+  color: #3d2a1e;
+  font-weight: 300;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   LETTER SECTION
+   ============================================================ */
+.letter-section .section-inner {
+  padding: 0;
+}
+
+.letter-paper {
+  background: #fef9f5;
+  border-radius: 16px;
+  padding: 40px 35px;
+  position: relative;
+  box-shadow: 
+    0 4px 20px rgba(44, 24, 16, 0.06),
+    inset 0 2px 0 rgba(255,255,255,0.8);
+  border: 1px solid rgba(192, 57, 43, 0.05);
+}
+
+.paper-fold {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, transparent 50%, rgba(192, 57, 43, 0.04) 50%);
+  border-radius: 0 16px 0 0;
+}
+
+.letter-content {
+  font-family: 'Quicksand', sans-serif;
+  font-size: 1.1rem;
+  line-height: 2;
+  color: #3d2a1e;
+  font-weight: 300;
+}
+
+.letter-content .greeting {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.8rem;
+  color: #2c1810;
+}
+
+.letter-content .signoff {
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.5rem;
+  text-align: right;
+  color: #c0392b;
+  margin-top: 1rem;
+}
+
+.sticker {
+  position: absolute;
+  bottom: 15px;
+  right: 20px;
+  font-size: 2.5rem;
+  opacity: 0.15;
+}
+
+/* ============================================================
+   CLOSING SECTION
+   ============================================================ */
+.heart-pulse {
+  font-size: 4rem;
+  color: #c0392b;
+  animation: heartbeat 1.5s ease-in-out infinite;
+  display: inline-block;
+  margin-bottom: 0.5rem;
+}
+
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14% { transform: scale(1.2); }
+  28% { transform: scale(1); }
+  42% { transform: scale(1.2); }
+  70% { transform: scale(1); }
+}
+
+.celebrate-btn {
+  margin-top: 1.5rem;
+  padding: 14px 35px;
+  background: linear-gradient(145deg, #f4d06f, #e8b84c);
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  color: #2c1810;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(244, 208, 111, 0.3);
+}
+
+.celebrate-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(244, 208, 111, 0.4);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  .name-title { font-size: 2.8rem; }
+  .handwritten.large { font-size: 1.8rem; }
+  .handwritten.medium { font-size: 1.3rem; }
+  .section-title { font-size: 1.8rem; }
+  .card-cover { padding: 35px 20px 30px; }
+  .reasons-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+  .reason-card { height: 75px; }
+  .letter-paper { padding: 25px 20px; }
+  .stamp { font-size: 1.8rem; top: 12px; right: 15px; }
+  .envelope-bg { padding: 15px; }
+  .body-text { font-size: 1rem; }
+  .memory-year { font-size: 1.1rem; min-width: 45px; }
+  .countdown-display { gap: 0.4rem; }
+  .time-block span { font-size: 1.6rem; }
+}
+
+@media (max-width: 400px) {
+  .reasons-grid { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  .reason-card { height: 65px; }
+  .reason-front { font-size: 1rem; }
+  .reason-back { font-size: 0.8rem; }
+}
