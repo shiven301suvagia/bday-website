@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>To Twenty — For Samyy Didi</title>
     <meta name="description" content="A cinematic birthday journey made with love for Samyy Didi." />
-    <meta property="og:title" content="To Twenty — For Samyy Didi" />
-    <meta property="og:description" content="A cinematic storybook experience." />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
+    
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   </head>
   <body class="locked">
-    <!-- Story progress indicator -->
-    <div id="story-progress" class="story-progress" aria-hidden="true"></div>
+    
+    <!-- Background Ambient Glows -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
 
-    <!-- Countdown Lock Screen -->
+    <!-- Countdown Lock Screen (Sits outside <main> to prevent visibility bugs) -->
     <section id="countdown-screen" class="countdown-screen">
-      <div class="countdown-card">
-        <p class="eyebrow sparkle-glow">✦ A quiet secret awaits ✦</p>
+      <div class="glass-card countdown-card">
+        <p class="eyebrow sparkle-glow">✦ A Quiet Secret Awaits ✦</p>
         <h1 class="countdown-title">Until Midnight</h1>
 
         <div class="countdown-grid">
@@ -55,13 +56,12 @@
 
     <!-- Main Website Content -->
     <main class="stage">
-      <!-- Ambient petals -->
+      <!-- Ambient petals container -->
       <div id="petals" class="petals" aria-hidden="true"></div>
 
-      <!-- Chapter 1: Splash / Prologue -->
+      <!-- Chapter 1: Prologue -->
       <section class="scene splash" id="splash">
         <div id="stars-splash" class="stars" aria-hidden="true"></div>
-        <div class="splash-vignette" aria-hidden="true"></div>
         <div class="splash-inner reveal">
           <span class="chapter-tag">PROLOGUE</span>
           <p class="script blush big-script">for my favorite person</p>
@@ -81,7 +81,6 @@
 
       <!-- Chapter 2: The Unboxing -->
       <section class="scene gift" id="gift">
-        <div class="scene-frame"></div>
         <span class="chapter-tag">CHAPTER I</span>
         <p id="gift-caption" class="script blush big-script">a small token before we start...</p>
         <div class="gift-box-wrap">
@@ -91,7 +90,7 @@
             <div class="box-lid"><div class="lid-knob"></div></div>
             <div class="box-glow"></div>
           </button>
-          <div id="gift-message" class="gift-message">
+          <div id="gift-message" class="gift-message glass-card">
             <p class="serif italic cream" style="font-size:1.85rem">Happy 20th Birthday</p>
             <p class="script gold-text" style="font-size:2.8rem">Samyy Didi</p>
           </div>
@@ -101,14 +100,12 @@
 
       <!-- Chapter 3: Storyteller Prologue -->
       <section class="scene story" id="story">
-        <div class="scene-frame"></div>
         <span class="chapter-tag">CHAPTER II</span>
-        <div class="story-inner" id="story-lines"></div>
+        <div class="story-inner glass-card" id="story-lines"></div>
       </section>
 
       <!-- Chapter 4: Memory Timeline -->
       <section class="scene timeline" id="timeline">
-        <div class="scene-frame"></div>
         <div class="section-head reveal">
           <span class="chapter-tag">CHAPTER III</span>
           <p class="eyebrow">Through the years</p>
@@ -123,7 +120,6 @@
 
       <!-- Chapter 5: 20 Little Notes -->
       <section class="scene lovecards" id="lovecards">
-        <div class="scene-frame"></div>
         <div class="section-head reveal">
           <span class="chapter-tag">CHAPTER IV</span>
           <p class="eyebrow">20 reasons</p>
@@ -135,10 +131,9 @@
 
       <!-- Chapter 6: Letter -->
       <section class="scene letter" id="letter">
-        <div class="scene-frame"></div>
         <span class="chapter-tag">CHAPTER V</span>
         <p class="eyebrow center">From the heart</p>
-        <article id="letter-paper" class="letter-paper reveal">
+        <article id="letter-paper" class="letter-paper glass-card reveal">
           <div class="tape"></div>
         </article>
       </section>
@@ -146,8 +141,7 @@
       <!-- Chapter 7: Celebration -->
       <section class="scene celebration" id="celebration">
         <div id="stars-celeb" class="stars" aria-hidden="true"></div>
-        <div class="celeb-glow" aria-hidden="true"></div>
-        <div class="celeb-inner reveal">
+        <div class="celeb-inner reveal glass-card">
           <span class="chapter-tag">THE FINALE</span>
           <p class="script blush" style="font-size:2.2rem">and so —</p>
           <h2 class="serif italic h-mega"><span class="gold-gradient">Happy</span><br />20th Birthday</h2>
@@ -158,7 +152,7 @@
 
       <!-- Chapter 8: Epilogue -->
       <section class="scene closing" id="closing">
-        <div class="reveal center-col">
+        <div class="reveal center-col glass-card">
           <div class="heart-beat">♥</div>
           <p class="serif italic cream" style="font-size:1.85rem">Whenever you need a reminder of how much you are loved, this place is here.</p>
           <p class="cream-70" style="margin-top:1rem">Refresh, revisit, or leave it open in a tab.<br />It will always be waiting for you.</p>
