@@ -16,11 +16,7 @@
   </head>
   <body class="locked">
     
-    <!-- Background Ambient Glows -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
-
-    <!-- Countdown Lock Screen -->
+    <!-- Countdown Lock Screen (Sits outside <main>) -->
     <section id="countdown-screen" class="countdown-screen">
       <div class="glass-card countdown-card">
         <p class="eyebrow sparkle-glow">✦ A Quiet Secret Awaits ✦</p>
@@ -62,7 +58,7 @@
       <!-- Chapter 1: Prologue -->
       <section class="scene splash" id="splash">
         <div id="stars-splash" class="stars" aria-hidden="true"></div>
-        <div class="splash-inner reveal">
+        <div class="splash-inner reveal active">
           <span class="chapter-tag">PROLOGUE</span>
           <p class="script blush big-script">for my favorite person</p>
           <h1 class="shimmer-text hero-name">Samyy Didi</h1>
@@ -90,7 +86,7 @@
             <div class="box-lid"><div class="lid-knob"></div></div>
             <div class="box-glow"></div>
           </button>
-          <div id="gift-message" class="gift-message glass-card">
+          <div id="gift-message" class="gift-message glass-card" style="display: none;">
             <p class="serif italic cream" style="font-size:1.85rem">Happy 20th Birthday</p>
             <p class="script gold-text" style="font-size:2.8rem">Samyy Didi</p>
           </div>
