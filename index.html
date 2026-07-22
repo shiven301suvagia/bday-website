@@ -3,153 +3,156 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>To Twenty — For Samyy Didi</title>
-    <meta name="description" content="A cinematic birthday journey made with love for Samyy Didi." />
+    <title>For My Dearest Samyy Didi ❤️</title>
+    <meta name="description" content="A handmade birthday card made with love for Samyy Didi." />
     
-    <!-- Google Fonts -->
+    <!-- Google Fonts - More personal, hand-drawn feel -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400;1,600&family=Dancing+Script:wght@500;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Dancing+Script:wght@400;600;700&display=swap" rel="stylesheet" />
     
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   </head>
-  <body class="locked">
+  <body>
     
-    <!-- ===== COUNTDOWN LOCK SCREEN ===== -->
-    <section id="countdown-screen" class="countdown-screen">
-      <div class="glass-card countdown-card">
-        <p class="eyebrow sparkle-glow">✦ A Quiet Secret Awaits ✦</p>
-        <h1 class="countdown-title">Until Midnight</h1>
-
-        <div class="countdown-grid">
-          <div class="time-box">
-            <span id="days">00</span>
-            <small>Days</small>
+    <!-- ===== COVER PAGE - Like a Handmade Card Cover ===== -->
+    <section id="cover" class="cover-page">
+      <div class="envelope-bg">
+        <div class="card-cover">
+          <div class="stamp">❤️</div>
+          <div class="cover-content">
+            <p class="handwritten small">For my dearest</p>
+            <h1 class="name-title">Samyy Didi</h1>
+            <div class="doodle-line">✧ ✧ ✧</div>
+            <p class="handwritten medium">Happy 20th Birthday</p>
+            <p class="handwritten tiny">from your bacha 😊</p>
+            <button id="open-card" class="open-btn">💌 Open this card</button>
           </div>
-          <div class="time-box">
-            <span id="hours">00</span>
-            <small>Hours</small>
-          </div>
-          <div class="time-box">
-            <span id="minutes">00</span>
-            <small>Minutes</small>
-          </div>
-          <div class="time-box">
-            <span id="seconds">00</span>
-            <small>Seconds</small>
-          </div>
+          <div class="corner-decoration top-left"></div>
+          <div class="corner-decoration top-right"></div>
+          <div class="corner-decoration bottom-left"></div>
+          <div class="corner-decoration bottom-right"></div>
         </div>
-
-        <p class="gift-from-bacha">a small gift from your bacha 😊</p>
-        <p class="countdown-note">Come back when the clock strikes twelve.</p>
       </div>
+      
+      <!-- Floating hearts in background -->
+      <div id="hearts-bg" class="hearts-bg"></div>
     </section>
 
-    <!-- ===== MAIN WEBSITE CONTENT ===== -->
-    <main class="stage">
-      <!-- Ambient petals container -->
-      <div id="petals" class="petals" aria-hidden="true"></div>
+    <!-- ===== THE INSIDE - Like Opening a Handmade Card ===== -->
+    <main id="card-inside" class="card-inside" style="display:none;">
+      
+      <!-- Decorative washi tape -->
+      <div class="washi-tape top-left"></div>
+      <div class="washi-tape top-right"></div>
+      
+      <!-- ===== SECTION 1: Warm Welcome ===== -->
+      <section class="card-section welcome">
+        <div class="section-inner">
+          <div class="hand-drawn-heart">❤️</div>
+          <p class="handwritten large">Dear Samyy Didi,</p>
+          <p class="handwritten medium" style="margin-top:0.5rem;">
+            I made this card just for you, with all my love. ✨
+          </p>
+          <div class="divider">✿ ✿ ✿</div>
+          <p class="body-text">
+            There are some people who make the world feel warmer just by being in it. 
+            You are one of those people. Today, we celebrate <span class="highlight">twenty years</span> of you — 
+            and I can't think of a better reason to smile.
+          </p>
+        </div>
+      </section>
 
-      <!-- ===== CHAPTER 1: PROLOGUE ===== -->
-      <section class="scene splash" id="splash">
-        <div class="splash-inner reveal active">
-          <span class="chapter-tag">PROLOGUE</span>
-          <p class="script blush big-script">for my favorite person</p>
-          <h1 class="hero-name">Samyy Didi</h1>
-          <div class="rule">
-            <span></span><span class="sparkle">✦</span><span></span>
+      <!-- ===== SECTION 2: The Gift (Interactive) ===== -->
+      <section class="card-section gift-section">
+        <div class="section-inner">
+          <p class="handwritten medium">I have a little surprise for you...</p>
+          <div class="gift-wrapper">
+            <button id="gift-btn" class="gift-btn" aria-label="Open your gift">
+              <div class="present-box">
+                <div class="box-main"></div>
+                <div class="ribbon-h"></div>
+                <div class="ribbon-v"></div>
+                <div class="bow">🎀</div>
+              </div>
+              <span class="gift-label">tap to open ✨</span>
+            </button>
+            <div id="gift-reveal" class="gift-reveal" style="display:none;">
+              <p class="handwritten large">Happy 20th Birthday!</p>
+              <p class="handwritten medium" style="color:#c0392b;">My Samyy Didi ❤️</p>
+              <p class="body-text" style="font-size:1.1rem;">This is just a little something to show how much you mean to me.</p>
+            </div>
           </div>
-          <p class="serif italic cream" style="font-size:1.8rem">To Twenty</p>
-          <p class="cream-70" style="margin-top:0.5rem">This is a story built from twenty years of moments, laughter, and light.</p>
-          <button id="begin" class="btn-primary"><span>✨ Begin the Tale</span></button>
-        </div>
-        <div class="scroll-hint">
-          <span>SCROLL TO BEGIN</span>
-          <span class="chev">⌄</span>
         </div>
       </section>
 
-      <!-- ===== CHAPTER 2: THE UNBOXING ===== -->
-      <section class="scene gift" id="gift">
-        <span class="chapter-tag">CHAPTER I</span>
-        <p class="script blush big-script">a small token before we start...</p>
-        <div class="gift-box-wrap">
-          <button id="gift-box" class="gift-box" aria-label="Open gift">
-            <div class="box-body"></div>
-            <div class="box-ribbon"></div>
-            <div class="box-lid"><div class="lid-knob"></div></div>
-            <div class="box-glow"></div>
-          </button>
-          <div id="gift-message" class="gift-message glass-card" style="display: none;">
-            <p class="serif cream" style="font-size:1.85rem">Happy 20th Birthday</p>
-            <p class="script gold-text" style="font-size:2.8rem">Samyy Didi</p>
+      <!-- ===== SECTION 3: Memory Lane ===== -->
+      <section class="card-section memories">
+        <div class="section-inner">
+          <p class="handwritten medium" style="color:#8B5CF6;">Looking back...</p>
+          <h2 class="section-title">Twenty Years of You</h2>
+          <div class="memory-timeline">
+            <div class="memory-item">
+              <span class="memory-year">2006</span>
+              <p class="memory-text">The world got a little brighter when you arrived.</p>
+            </div>
+            <div class="memory-item">
+              <span class="memory-year">❤️</span>
+              <p class="memory-text">Growing up, you filled every room with laughter.</p>
+            </div>
+            <div class="memory-item">
+              <span class="memory-year">🌟</span>
+              <p class="memory-text">You became someone everyone looks up to.</p>
+            </div>
+            <div class="memory-item">
+              <span class="memory-year">🎂</span>
+              <p class="memory-text">And now — twenty. A whole new chapter begins.</p>
+            </div>
           </div>
         </div>
-        <p id="tap-hint" class="tap-hint">✦ TAP TO OPEN THE GIFT ✦</p>
       </section>
 
-      <!-- ===== CHAPTER 3: STORYTELLER ===== -->
-      <section class="scene story" id="story">
-        <span class="chapter-tag">CHAPTER II</span>
-        <div class="story-inner glass-card" id="story-lines"></div>
-      </section>
-
-      <!-- ===== CHAPTER 4: TIMELINE ===== -->
-      <section class="scene timeline" id="timeline">
-        <div class="section-head reveal">
-          <span class="chapter-tag">CHAPTER III</span>
-          <p class="eyebrow">Through the years</p>
-          <h2 class="serif italic h-large">Twenty <span class="gold-gradient">chapters</span>, so far</h2>
-          <p class="cream-70">A timeline of moments that made you who you are.</p>
-        </div>
-        <div class="timeline-wrap">
-          <div class="timeline-line"></div>
-          <div id="timeline-items" class="timeline-items"></div>
+      <!-- ===== SECTION 4: 20 Little Reasons (Love Notes) ===== -->
+      <section class="card-section reasons">
+        <div class="section-inner">
+          <p class="handwritten medium">20 little reasons why you're amazing...</p>
+          <div class="reasons-grid" id="reasons-grid">
+            <!-- Generated by JavaScript -->
+          </div>
+          <p class="handwritten tiny" style="margin-top:1rem;">tap each note to flip it over ✨</p>
         </div>
       </section>
 
-      <!-- ===== CHAPTER 5: 20 LOVE NOTES ===== -->
-      <section class="scene lovecards" id="lovecards">
-        <div class="section-head reveal">
-          <span class="chapter-tag">CHAPTER IV</span>
-          <p class="eyebrow">20 reasons</p>
-          <h2 class="serif italic h-large">Twenty little <span class="gold-gradient">love notes</span></h2>
-          <p class="cream-70">Tap each card to reveal a memory or reason.</p>
-        </div>
-        <div id="cards-grid" class="cards-grid"></div>
-      </section>
-
-      <!-- ===== CHAPTER 6: LETTER ===== -->
-      <section class="scene letter" id="letter">
-        <span class="chapter-tag">CHAPTER V</span>
-        <p class="eyebrow center">From the heart</p>
-        <article id="letter-paper" class="letter-paper glass-card reveal">
-          <div class="tape"></div>
-        </article>
-      </section>
-
-      <!-- ===== CHAPTER 7: CELEBRATION ===== -->
-      <section class="scene celebration" id="celebration">
-        <div id="stars-celeb" class="stars" aria-hidden="true"></div>
-        <div class="celeb-inner reveal glass-card">
-          <span class="chapter-tag">THE FINALE</span>
-          <p class="script blush" style="font-size:2.2rem">and so —</p>
-          <h2 class="serif italic h-mega"><span class="gold-gradient">Happy</span><br />20th Birthday</h2>
-          <p class="script rose" style="font-size:3.2rem">Samyy Didi</p>
-          <button id="again" class="btn-outline">✦ Relive the Spark</button>
+      <!-- ===== SECTION 5: The Letter (Handwritten Feel) ===== -->
+      <section class="card-section letter-section">
+        <div class="section-inner letter-paper">
+          <div class="paper-fold"></div>
+          <div class="letter-content" id="letter-content">
+            <!-- Filled by JavaScript -->
+          </div>
+          <div class="sticker">❤️</div>
         </div>
       </section>
 
-      <!-- ===== CHAPTER 8: EPILOGUE ===== -->
-      <section class="scene closing" id="closing">
-        <div class="reveal center-col glass-card">
-          <div class="heart-beat">♥</div>
-          <p class="serif italic cream" style="font-size:1.85rem">Whenever you need a reminder of how much you are loved, this place is here.</p>
-          <p class="cream-70" style="margin-top:1rem">Refresh, revisit, or leave it open in a tab.<br />It will always be waiting for you.</p>
-          <p class="script gold-text" style="font-size:1.8rem; margin-top:3rem">— with all my love, your bacha 😊</p>
+      <!-- ===== SECTION 6: Closing Message ===== -->
+      <section class="card-section closing">
+        <div class="section-inner">
+          <div class="heart-pulse">❤️</div>
+          <p class="handwritten large">With all my love,</p>
+          <p class="handwritten large" style="color:#c0392b;">your bacha 😊</p>
+          <div class="divider">✧ ✧ ✧</div>
+          <p class="body-text" style="font-size:1.1rem;">
+            This card will always be here for you. 
+            Whenever you need a reminder of how loved you are, just come back and read it again.
+          </p>
+          <button id="celebrate-btn" class="celebrate-btn">🎉 Let's Celebrate!</button>
         </div>
       </section>
+
+      <!-- Washi tape bottom -->
+      <div class="washi-tape bottom-left"></div>
+      <div class="washi-tape bottom-right"></div>
     </main>
 
     <script src="script.js"></script>
