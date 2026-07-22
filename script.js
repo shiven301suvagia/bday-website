@@ -1,254 +1,277 @@
 // ============================================================
-//  COUNTDOWN LOGIC
+//  COUNTDOWN LOGIC - Like waiting for a special day
 // ============================================================
-const UNLOCK_DATE = new Date("2025-07-23T00:00:00+05:30");
-let timer = null;
+// Set your birthday date here:
+const BIRTHDAY_DATE = new Date("2025-07-23T00:00:00+05:30");
+let countdownTimer = null;
 
 function updateCountdown() {
   const now = new Date();
-  const diff = UNLOCK_DATE - now;
+  const diff = BIRTHDAY_DATE - now;
+
+  // Get the display elements
+  const daysEl = document.getElementById('days');
+  const hoursEl = document.getElementById('hours');
+  const minutesEl = document.getElementById('minutes');
+  const secondsEl = document.getElementById('seconds');
+  const countdownSection = document.getElementById('countdown-section');
 
   if (diff <= 0) {
-    unlockSite();
-    if (timer) clearInterval(timer);
+    // It's time! Hide countdown and show the card
+    if (countdownTimer) clearInterval(countdownTimer);
+    if (countdownSection) {
+      countdownSection.classList.add('finished');
+      setTimeout(() => {
+        countdownSection.style.display = 'none';
+        document.getElementById('cover').style.display = 'flex';
+        // Small confetti burst when card appears
+        if (typeof confetti === 'function') {
+          confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
+        }
+      }, 800);
+    }
     return;
   }
 
+  // Calculate time remaining
   const days = Math.floor(diff / (1000 * 60 * 60 * 24));
   const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
   const minutes = Math.floor((diff / (1000 * 60)) % 60);
   const seconds = Math.floor((diff / 1000) % 60);
 
-  document.getElementById("days").textContent = String(days).padStart(2, "0");
-  document.getElementById("hours").textContent = String(hours).padStart(2, "0");
-  document.getElementById("minutes").textContent = String(minutes).padStart(2, "0");
-  document.getElementById("seconds").textContent = String(seconds).padStart(2, "0");
+  // Update the display with cute formatting
+  if (daysEl) daysEl.textContent = String(days).padStart(2, '0');
+  if (hoursEl) hoursEl.textContent = String(hours).padStart(2, '0');
+  if (minutesEl) minutesEl.textContent = String(minutes).padStart(2, '0');
+  if (secondsEl) secondsEl.textContent = String(seconds).padStart(2, '0');
 }
 
-function unlockSite() {
-  document.body.classList.remove("locked");
-  document.body.classList.add("unlocked");
-  
-  if (typeof confetti === "function") {
-    confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
-    setTimeout(() => {
-      confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
-    }, 300);
-  }
-}
-
-// Start timer
-timer = setInterval(updateCountdown, 1000);
+// Start the countdown
+countdownTimer = setInterval(updateCountdown, 1000);
 updateCountdown();
 
 // ============================================================
-//  FLOATING PETALS
+//  OPEN THE CARD
 // ============================================================
-function createPetals() {
-  const container = document.getElementById("petals");
+document.getElementById('open-card').addEventListener('click', function() {
+  const cover = document.getElementById('cover');
+  const inside = document.getElementById('card-inside');
+  
+  cover.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+  cover.style.opacity = '0';
+  cover.style.transform = 'scale(0.95)';
+  
+  setTimeout(() => {
+    cover.style.display = 'none';
+    inside.style.display = 'block';
+    inside.style.animation = 'fadeReveal 0.8s ease forwards';
+    
+    // Confetti celebration when opening
+    if (typeof confetti === 'function') {
+      confetti({ particleCount: 80, spread: 60, origin: { y: 0.5 } });
+    }
+  }, 800);
+});
+
+// ============================================================
+//  FLOATING HEARTS (Background)
+// ============================================================
+function createHearts() {
+  const container = document.getElementById('hearts-bg');
   if (!container) return;
   
-  for (let i = 0; i < 25; i++) {
-    const petal = document.createElement("div");
-    petal.className = "petal";
-    petal.style.left = Math.random() * 100 + "vw";
-    petal.style.width = Math.random() * 12 + 8 + "px";
-    petal.style.height = Math.random() * 15 + 10 + "px";
-    petal.style.animationDuration = Math.random() * 5 + 7 + "s";
-    petal.style.animationDelay = Math.random() * 5 + "s";
-    petal.style.transform = `rotate(${Math.random() * 360}deg)`;
-    container.appendChild(petal);
+  const emojis = ['❤️', '♥', '💕', '💗', '✨'];
+  
+  for (let i = 0; i < 20; i++) {
+    const heart = document.createElement('div');
+    heart.className = 'heart-float';
+    heart.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.fontSize = (Math.random() * 1.5 + 0.8) + 'rem';
+    heart.style.animationDuration = (Math.random() * 10 + 12) + 's';
+    heart.style.animationDelay = (Math.random() * 10) + 's';
+    container.appendChild(heart);
   }
 }
-createPetals();
+createHearts();
 
 // ============================================================
-//  STORYTELLER LINES
+//  GIFT BOX
 // ============================================================
-const storyText = [
-  "Twenty years ago, a quiet light entered the world.",
-  "Through every chapter, you've brought warmth, grace, and an unforgettable smile.",
-  "You hold a special place in the hearts of everyone around you.",
-  "And today, we celebrate all that you are—and all the wonderful moments still to come."
-];
+const giftBtn = document.getElementById('gift-btn');
+const giftReveal = document.getElementById('gift-reveal');
 
-const storyContainer = document.getElementById("story-lines");
-if (storyContainer) {
-  storyText.forEach((text) => {
-    const p = document.createElement("p");
-    p.className = "story-line";
-    p.textContent = text;
-    storyContainer.appendChild(p);
+if (giftBtn) {
+  giftBtn.addEventListener('click', function() {
+    const box = this.querySelector('.present-box');
+    const label = this.querySelector('.gift-label');
+    
+    // Animate box opening
+    box.style.transition = 'transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    box.style.transform = 'scale(1.2) rotate(-5deg)';
+    
+    setTimeout(() => {
+      box.style.transform = 'scale(0.8) rotate(0deg)';
+      box.style.opacity = '0';
+      if (label) label.style.opacity = '0';
+      
+      setTimeout(() => {
+        this.style.display = 'none';
+        if (giftReveal) {
+          giftReveal.style.display = 'block';
+          // Confetti for gift opening
+          if (typeof confetti === 'function') {
+            confetti({ particleCount: 50, spread: 50, origin: { y: 0.6 } });
+          }
+        }
+      }, 400);
+    }, 500);
   });
 }
 
 // ============================================================
-//  MEMORY TIMELINE
+//  20 LOVE REASONS
 // ============================================================
-const timelineData = [
-  { year: "2006", title: "The Beginning", desc: "A brand new story began." },
-  { year: "2012", title: "Growing Up", desc: "Filling days with curiosity and laughter." },
-  { year: "2018", title: "Milestones", desc: "Stepping gracefully into new adventures." },
-  { year: "2026", title: "To Twenty", desc: "Entering a golden new decade full of promise." }
+const reasonsData = [
+  "Your laugh lights up every room",
+  "You're always there for everyone",
+  "Your kind heart knows no bounds",
+  "You give the best advice",
+  "Your patience is inspiring",
+  "You make every day brighter",
+  "Your sense of humor is the best",
+  "You're an amazing sister",
+  "You care about everyone deeply",
+  "Your strength is incredible",
+  "You never give up",
+  "You remember the little things",
+  "Your dreams inspire others",
+  "You keep your promises",
+  "You're so generous",
+  "You make us all feel loved",
+  "You're so smart and wise",
+  "Your creative spirit shines",
+  "You bring peace wherever you go",
+  "You're simply YOU — and that's perfect! ❤️"
 ];
 
-const timelineContainer = document.getElementById("timeline-items");
-if (timelineContainer) {
-  timelineData.forEach((item) => {
-    const div = document.createElement("div");
-    div.className = "timeline-item";
-    div.innerHTML = `
-      <div class="timeline-card glass-card">
-        <div class="timeline-year">${item.year}</div>
-        <h3 class="serif cream" style="font-size:1.2rem">${item.title}</h3>
-        <p class="cream-70" style="font-size:0.9rem">${item.desc}</p>
-      </div>
-    `;
-    timelineContainer.appendChild(div);
-  });
-}
+const reasonsGrid = document.getElementById('reasons-grid');
 
-// ============================================================
-//  20 LOVE CARDS
-// ============================================================
-const cardsData = [
-  "Your beautiful laughter", "Always being supportive", "Your warm heart",
-  "The best advice provider", "Your patience and grace", "Your cheerful energy",
-  "Making every day brighter", "Your wonderful sense of humor", "Being an amazing sister",
-  "Your kindness to everyone", "Your endless strength", "Unforgettable memories",
-  "Your inspiring dreams", "Always keeping promises", "Your generous spirit",
-  "Making us feel loved", "Your brilliant mind", "Your artistic touch",
-  "Bringing peace everywhere", "Simply being YOU! ♥"
-];
-
-const cardsGrid = document.getElementById("cards-grid");
-if (cardsGrid) {
-  cardsData.forEach((note, index) => {
-    const card = document.createElement("div");
-    card.className = "note-card";
+if (reasonsGrid) {
+  reasonsData.forEach((reason, index) => {
+    const card = document.createElement('div');
+    card.className = 'reason-card';
     card.innerHTML = `
-      <div class="card-inner">
-        <div class="card-front">
-          <span class="number">#${index + 1}</span>
+      <div class="reason-inner">
+        <div class="reason-front">
+          ✦
+          <span class="num">#${index + 1}</span>
         </div>
-        <div class="card-back">
-          <span>${note}</span>
-        </div>
+        <div class="reason-back">${reason}</div>
       </div>
     `;
-    card.addEventListener("click", () => {
-      card.classList.toggle("flipped");
+    
+    card.addEventListener('click', function() {
+      this.classList.toggle('flipped');
     });
-    cardsGrid.appendChild(card);
+    
+    reasonsGrid.appendChild(card);
   });
 }
 
 // ============================================================
-//  LETTER PAPER TEXT
+//  THE LETTER (Handwritten style content)
 // ============================================================
-const letterPaper = document.getElementById("letter-paper");
-if (letterPaper) {
-  letterPaper.innerHTML = `
-    <p class="serif cream" style="margin-bottom:1rem">Dear Samyy Didi,</p>
-    <p class="cream-70" style="margin-bottom:1rem">
-      Happy 20th Birthday! Turning twenty is such a wonderful milestone. Watching you grow, achieve, and shine brighter each year has been a true joy.
+const letterContent = document.getElementById('letter-content');
+
+if (letterContent) {
+  letterContent.innerHTML = `
+    <p class="greeting">My dearest Samyy Didi,</p>
+    <p style="margin-top: 0.8rem;">
+      Happy 20th Birthday! 🎂 I can't believe you're twenty already — it feels 
+      like just yesterday we were laughing about silly things, and now you're 
+      this incredible, strong, beautiful person.
     </p>
-    <p class="cream-70" style="margin-bottom:1rem">
-      Thank you for all the laughter, the little moments, and for always being such a wonderful person. I hope this new decade brings you endless success, health, and happiness.
+    <p style="margin-top: 1rem;">
+      I wanted to write you a letter because sometimes, the best things can't 
+      be said in a text message. They need to be written down, on paper, 
+      so you can hold them close and read them whenever you need to.
     </p>
-    <p class="script gold-text" style="font-size:1.8rem; text-align:right">— Always, your bacha 😊</p>
+    <p style="margin-top: 1rem;">
+      Thank you for being the amazing person you are. For your kindness, 
+      your patience, your endless support. Thank you for the late-night talks, 
+      the laughter that made our stomachs hurt, and for just being <em>you</em>.
+    </p>
+    <p style="margin-top: 1rem;">
+      This new decade — your twenties — is going to be <em>so</em> beautiful. 
+      I hope it brings you everything you've ever dreamed of and more. 
+      You deserve all the happiness in the world.
+    </p>
+    <p style="margin-top: 1rem;">
+      No matter where life takes you, always remember: you are so, so loved.
+    </p>
+    <p class="signoff" style="margin-top: 1.5rem;">
+      with all my love,<br />
+      your bacha 😊
+    </p>
   `;
 }
 
 // ============================================================
-//  STARS FOR CELEBRATION SECTION
+//  CELEBRATE BUTTON - Finale Confetti
 // ============================================================
-function createStars() {
-  const container = document.getElementById("stars-celeb");
-  if (!container) return;
-  
-  for (let i = 0; i < 50; i++) {
-    const star = document.createElement("div");
-    star.className = "star";
-    star.style.left = Math.random() * 100 + "%";
-    star.style.top = Math.random() * 100 + "%";
-    star.style.animationDelay = Math.random() * 3 + "s";
-    star.style.width = Math.random() * 3 + 1 + "px";
-    star.style.height = star.style.width;
-    container.appendChild(star);
-  }
-}
-createStars();
-
-// ============================================================
-//  INTERACTIVE ACTIONS
-// ============================================================
-// Gift Box
-const giftBox = document.getElementById("gift-box");
-const giftMsg = document.getElementById("gift-message");
-const tapHint = document.getElementById("tap-hint");
-
-if (giftBox) {
-  giftBox.addEventListener("click", () => {
-    giftBox.style.display = "none";
-    if (tapHint) tapHint.style.display = "none";
-    if (giftMsg) giftMsg.style.display = "block";
-    
-    if (typeof confetti === "function") {
-      confetti({ particleCount: 60, spread: 70, origin: { y: 0.7 } });
-    }
-  });
-}
-
-// Begin Button
-const beginBtn = document.getElementById("begin");
-if (beginBtn) {
-  beginBtn.addEventListener("click", () => {
-    document.getElementById("gift").scrollIntoView({ behavior: "smooth" });
-  });
-}
-
-// Relive Button
-const againBtn = document.getElementById("again");
-if (againBtn) {
-  againBtn.addEventListener("click", () => {
-    if (typeof confetti === "function") {
-      confetti({ particleCount: 120, spread: 100, origin: { y: 0.5 } });
+const celebrateBtn = document.getElementById('celebrate-btn');
+if (celebrateBtn) {
+  celebrateBtn.addEventListener('click', function() {
+    if (typeof confetti === 'function') {
+      // Big celebration!
+      confetti({ particleCount: 150, spread: 100, origin: { y: 0.4 } });
       setTimeout(() => {
-        confetti({ particleCount: 80, spread: 70, origin: { y: 0.4 } });
-      }, 200);
+        confetti({ particleCount: 100, spread: 80, origin: { y: 0.5 } });
+      }, 300);
+      setTimeout(() => {
+        confetti({ particleCount: 80, spread: 60, origin: { y: 0.6 } });
+      }, 600);
+      
+      // Add some sparkle effect
+      this.textContent = '🎊 Happy Birthday! 🎊';
+      this.style.transform = 'scale(1.05)';
+      setTimeout(() => {
+        this.textContent = '🎉 Let\'s Celebrate! 🎉';
+        this.style.transform = 'scale(1)';
+      }, 2000);
     }
   });
 }
 
 // ============================================================
-//  SCROLL REVEAL OBSERVER
+//  SCROLL REVEAL - For a gentle card-opening feel
 // ============================================================
+const sections = document.querySelectorAll('.card-section');
+
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
-      entry.target.classList.add("active");
-      
-      // Animate story lines if story section enters
-      if (entry.target.id === "story") {
-        const lines = entry.target.querySelectorAll(".story-line");
-        lines.forEach((line, idx) => {
-          setTimeout(() => {
-            line.classList.add("show");
-          }, idx * 400);
-        });
-      }
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'translateY(0)';
     }
   });
-}, { threshold: 0.15 });
+}, { threshold: 0.1 });
 
-document.querySelectorAll(".reveal, .scene").forEach(el => observer.observe(el));
+sections.forEach((section, index) => {
+  section.style.opacity = '0';
+  section.style.transform = 'translateY(30px)';
+  section.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+  observer.observe(section);
+});
 
 // ============================================================
-//  EXTRA: Fix for any potential display issues
+//  ADD PAPER TEXTURE (extra cozy)
 // ============================================================
-// Ensure the site is locked if countdown hasn't expired
-if (new Date() < UNLOCK_DATE) {
-  document.body.classList.add("locked");
-  document.body.classList.remove("unlocked");
-}
+document.querySelectorAll('.letter-paper, .card-cover, .envelope-bg, .note-paper').forEach(el => {
+  el.style.backgroundImage = `
+    url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c0392b' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")
+  `;
+});
+
+console.log('💌 A handmade card, made with love for Samyy Didi ❤️');
